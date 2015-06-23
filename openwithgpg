@@ -1,0 +1,39 @@
+#!/bin/sh
+#a small app to open gpg files for viewing using gpg, xdg-open 
+#and mktemp.
+
+#if no argument is given, stop now.
+if [ $# -ne 1 ];then
+	printf "Usage: openwithgpg *filename*\n"
+	exit 1
+fi
+
+#the first argument is the relative path to the file
+FileName=$1
+
+#get the current working directory
+CurrentDir=$(pwd)
+
+#check file is actually a gpg file
+FilePath = "$CurrentDir/$FileName"
+FileType = $(file $FilePath | cut -d: -f2 | cut -d ' ' -f2)
+if [ ! "$FileType" = "PGP" ];then
+	printf "File does not appear to be PGP encrypted. Stopping now\n"	
+	exit 1
+fi
+
+#make secure temporary folder to extract file
+WorkingDir=$(mktemp)
+ExtractedFile="$WorkingDir/$FileName"
+
+#extract the file
+gpg -d "$FilePath" > "$ExtractedFile"
+
+#open the file using xdg-open
+xdg-open "$ExtractedFile"
+
+#destroy the temporary file
+shred --remove "$ExtractedFile"
+
+#remove the temporary directory
+rm -r "$WorkingDir"
