@@ -9,21 +9,21 @@ if [ $# -ne 1 ];then
 fi
 
 #the first argument is the relative path to the file
-FileName=$1
+FileName="$1"
 
 #get the current working directory
 CurrentDir=$(pwd)
 
 #check file is actually a gpg file
-FilePath = "$CurrentDir/$FileName"
-FileType = $(file $FilePath | cut -d: -f2 | cut -d ' ' -f2)
+FilePath="$CurrentDir/$FileName"
+FileType=$(file "$FilePath" | cut -d: -f2 | cut -d ' ' -f2)
 if [ ! "$FileType" = "PGP" ];then
 	printf "File does not appear to be PGP encrypted. Stopping now\n"	
 	exit 1
 fi
 
 #make secure temporary folder to extract file
-WorkingDir=$(mktemp)
+WorkingDir=$(mktemp -d)
 ExtractedFile="$WorkingDir/$FileName"
 
 #extract the file
@@ -33,7 +33,7 @@ gpg -d "$FilePath" > "$ExtractedFile"
 xdg-open "$ExtractedFile"
 
 #destroy the temporary file
-shred --remove "$ExtractedFile"
+#shred --remove "$ExtractedFile"
 
 #remove the temporary directory
-rm -r "$WorkingDir"
+#rm -r "$WorkingDir"
