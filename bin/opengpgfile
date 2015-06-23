@@ -1,10 +1,10 @@
 #!/bin/sh
-#a small app to open gpg files for viewing using gpg, xdg-open 
-#and mktemp.
+#a small script to open GPG encrypted files for viewing in a 
+#sensible application using gpg, xdg-open and mktemp.
 
 #if no argument is given, stop now.
 if [ $# -ne 1 ];then
-	printf "Usage: openwithgpg *filename*\n"
+	printf "Usage: openhgpgfile *filename*\n"
 	exit 1
 fi
 
