@@ -10,11 +10,11 @@ a word document in Libreoffice, etc etc..
 Installation
 ------------
 
-###Quick and dirty
+####Quick and dirty
 Clone this repository and copy the script `bin/opengpgfile` to 
 `/usr/bin` or `/usr/local/bin`.
 
-###The better way
+####The better way
 Get into the habbit of using [Stow](https://www.gnu.org/software/stow/) to manage the manually installed packages and scripts on you computer.
 
 After you've installed stow, you could follow a process similar to this to get up and running with opengpgfile:
